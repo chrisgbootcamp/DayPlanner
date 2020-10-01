@@ -1,5 +1,5 @@
 // Populate current day
-var timeDay = moment().format("dddd, LL");
+var Day = moment().format("dddd, LL");
 
 // Make global var for the timeblocks
 var blockTime = $(".time-block");
@@ -8,7 +8,7 @@ var blockTime = $(".time-block");
 var hrCurrent = moment().format("H");
 
 // Retrieve schedule items
-var toDoItems = [];
+var ItemsToDo = [];
 
 // Set the timeblock colors based on time
 function colorTimeBlocks() {
@@ -45,7 +45,7 @@ function startSched() {
             text: "",
         }
         // push to array
-        toDoItems.push(schedObj);
+        ItemsToDo.push(schedObj);
     });
     // save to local storage
     localStorage.setItem("todos", JSON.stringify(toDoItems));
@@ -55,16 +55,16 @@ function startSched() {
 
 // To Do items need to be set to locale storage and retrieved from same and displayed
 function schedRender() {
-    toDoItems = localStorage.getItem("todos");
-    toDoItems = JSON.parse(toDoItems);
+    ItemsToDo = localStorage.getItem("todos");
+    ItemsToDo = JSON.parse(toDoItems);
 
-    for (var i = 0; i < toDoItems.length; i++) {
-        var itemHr = toDoItems[i].hour;
-        var itemText = toDoItems[i].text;
+    for (var i = 0; i < ItemsToDo.length; i++) {
+        var itemHr = ItemsToDo[i].hour;
+        var itemText = ItemsToDo[i].text;
 
         $("[data-hour=" + itemHr + "]").children(".description").val(itemText);
     }
-    //console.log(toDoItems);
+    //console.log(ItemsToDo);
 }
 
 function saveButton() {
@@ -74,8 +74,8 @@ function saveButton() {
     var addItem = (($(this).parent()).children(".description")).val();
 
     for (var r = 0; r < toDoItems.length; r++) {
-        if (toDoItems[r].hour == hourUpdate) {
-            toDoItems[r].text = addItem;
+        if (ItemsToDo[r].hour == hourUpdate) {
+            ItemsToDo[r].text = addItem;
         }
     }
     localStorage.setItem("todos", JSON.stringify(toDoItems));
@@ -95,7 +95,7 @@ $(document).ready(function () {
     schedRender();
 
     // Date needs to display
-    $("#currentDay").text(timeDay);
+    $("#currentDay").text(Day);
 
     $(".saveBtn").on("click", saveButton);
 });
